@@ -17,7 +17,9 @@ def extract_text_from_pdf(file):
     reader = PdfReader(file)
     text = ""
     for page in reader.pages:
-        text += page.extract_text()
+        extracted_text = page.extract_text()
+        if extracted_text:
+            text += extracted_text
     return text
 
 # Sidebar choice
@@ -48,11 +50,11 @@ elif choice == 'Summarize Document':
     if uploaded_file is not None:
         text = extract_text_from_pdf(uploaded_file)
         if text:
-            col1, col2 = st.columns([1, 1])
-            with col1:
-                st.markdown("***Extracted Text from PDF***")
-                st.info(text)
-            with col2:
-                result = summary_text(text)
-                st.markdown("***Summary***")
-                st.success(result)
+            st.markdown("***Extracted Text from PDF***")
+            st.info(text)
+
+            result = summary_text(text)
+            st.markdown("***Summary***")
+            st.success(result)
+        else:
+            st.error("Could not extract text from the uploaded PDF.")
