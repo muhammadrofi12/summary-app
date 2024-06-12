@@ -1,0 +1,2 @@
+txtai[all]
+PyPDF2
