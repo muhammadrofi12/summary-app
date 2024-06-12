@@ -1,6 +1,6 @@
 import streamlit as st
 from txtai.pipeline import Summary
-from PyPDF2 import PdfFileReader
+from PyPDF2 import PdfReader
 
 # Set page configuration
 st.set_page_config(layout='wide')
@@ -14,10 +14,9 @@ def summary_text(text):
 
 # Extract text from the PDF file using PyPDF2
 def extract_text_from_pdf(file):
-    reader = PdfFileReader(file)
+    reader = PdfReader(file)
     text = ""
-    for page_num in range(reader.getNumPages()):
-        page = reader.getPage(page_num)
+    for page in reader.pages:
         text += page.extract_text()
     return text
 
@@ -31,7 +30,7 @@ if choice == 'Summarize Text':
     input_text = st.text_area('Enter your text here!')
     if input_text:
         if st.button('Summarize Text'):
-            col1, col2 = st.columns([1,1])
+            col1, col2 = st.columns([1, 1])
             with col1:
                 st.markdown("***Your Input Text***")
                 st.info(input_text)
